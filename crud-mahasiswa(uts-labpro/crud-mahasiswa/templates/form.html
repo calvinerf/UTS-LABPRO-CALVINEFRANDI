@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Tambah' if mode == 'tambah' else 'Ubah' }} mahasiswa{% endblock %}
+{% block content %}
+<h1>{{ 'Tambah mahasiswa' if mode == 'tambah' else 'Ubah data mahasiswa' }}</h1>
+<form class="card" method="post" novalidate>
+  <label>NIM
+    <input name="nim" inputmode="numeric" value="{{ m.nim or '' }}" {{ 'readonly' if mode == 'ubah' }}>
+  </label>
+  <label>Nama
+    <input name="nama" value="{{ m.nama or '' }}">
+  </label>
+  <label>Program studi
+    <input name="program_studi" value="{{ m.program_studi or '' }}">
+  </label>
+  <label>Angkatan
+    <input name="angkatan" inputmode="numeric" placeholder="2023" value="{{ m.angkatan or '' }}">
+  </label>
+  <label>IPK
+    <input name="ipk" inputmode="decimal" placeholder="0.00 - 4.00" value="{{ m.ipk if m.ipk is not none else '' }}">
+  </label>
+  <div class="row">
+    <button class="btn" type="submit">{{ 'Tambah mahasiswa' if mode == 'tambah' else 'Simpan perubahan' }}</button>
+    <a href="{{ url_for('index') }}">Batal</a>
+  </div>
+</form>
+{% endblock %}
