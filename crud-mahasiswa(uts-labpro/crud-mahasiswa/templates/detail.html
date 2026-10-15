@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ m.nama }}{% endblock %}
+{% block content %}
+<h1>{{ m.nama }}</h1>
+<dl class="card detail">
+  <dt>NIM</dt><dd>{{ m.nim }}</dd>
+  <dt>Program studi</dt><dd>{{ m.program_studi }}</dd>
+  <dt>Angkatan</dt><dd>{{ m.angkatan }}</dd>
+  <dt>IPK</dt><dd>{{ '%.2f'|format(m.ipk) }}</dd>
+  <dt>Lama studi</dt><dd>{{ m.lama_studi }} tahun</dd>
+</dl>
+<div class="row">
+  <a class="btn" href="{{ url_for('ubah', nim=m.nim) }}">Ubah data</a>
+  <form method="post" action="{{ url_for('hapus', nim=m.nim) }}"
+        onsubmit="return confirm('Hapus {{ m.nama|e }}?');">
+    <button class="link danger" type="submit">Hapus</button>
+  </form>
+  <a href="{{ url_for('index') }}">Kembali ke daftar</a>
+</div>
+{% endblock %}
