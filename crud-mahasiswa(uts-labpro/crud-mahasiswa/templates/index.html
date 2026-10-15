@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="search" method="get">
+  <input type="search" name="q" value="{{ q }}" placeholder="Cari NIM, nama, atau program studi" aria-label="Cari">
+  <button class="btn" type="submit">Cari</button>
+</form>
+
+{% if mahasiswa %}
+<div class="scroll">
+<table>
+  <thead>
+    <tr>
+      <th>NIM</th><th>Nama</th><th>Program studi</th>
+      <th class="num">Angkatan</th><th class="num">IPK</th>
+      <th class="num">Lama studi</th><th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for m in mahasiswa %}
+    <tr>
+      <td>{{ m.nim }}</td>
+      <td><a href="{{ url_for('detail', nim=m.nim) }}">{{ m.nama }}</a></td>
+      <td>{{ m.program_studi }}</td>
+      <td class="num">{{ m.angkatan }}</td>
+      <td class="num">{{ '%.2f'|format(m.ipk) }}</td>
+      <td class="num">{{ m.lama_studi }} tahun</td>
+      <td class="aksi">
+        <a href="{{ url_for('ubah', nim=m.nim) }}">Ubah</a>
+        <form method="post" action="{{ url_for('hapus', nim=m.nim) }}"
+              onsubmit="return confirm('Hapus {{ m.nama|e }}?');">
+          <button class="link danger" type="submit">Hapus</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted">{{ mahasiswa|length }} mahasiswa</p>
+{% else %}
+<p class="empty">{% if q %}Tidak ada hasil untuk "{{ q }}".{% else %}Belum ada data mahasiswa. Mulai dengan menambahkan mahasiswa pertama.{% endif %}</p>
+{% endif %}
+{% endblock %}
